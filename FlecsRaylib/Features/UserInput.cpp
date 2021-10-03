@@ -14,7 +14,7 @@ void UserInput::RegisterTypes(flecs::world& ecs)
 
 void UserInput::RegisterSystems(flecs::world& ecs)
 {
-    auto UpdateBuilder = ecs.system<MouseInfo>("MouseUpdate");
+    auto UpdateBuilder = ecs.system<MouseInfo, raylib::Vector2>("MouseUpdate");
     ecs.component<MouseButtons>().children([&](flecs::entity Button)
     {
         UpdateBuilder.term(Button).oper(flecs::Optional).inout(flecs::Out);
@@ -23,32 +23,37 @@ void UserInput::RegisterSystems(flecs::world& ecs)
         .kind(flecs::PreFrame)
         .iter(UpdateMouse);
 
-    ecs.observer<MouseInfo>()
+    ecs.observer<raylib::Vector2>()
         .term<MouseButtons::Left>()
         .event(flecs::OnAdd)
-        .iter([](flecs::iter& Iter, MouseInfo* Info)
+        .iter([](flecs::iter& Iter, raylib::Vector2* Positions)
         {
             if(Iter.event_id() == flecs::type_id<MouseButtons::Left>())
             {
-                Iter.world().entity()
-                    .set<raylib::Vector2>({Info->Position})
-                    .set<Circle>({GREEN, 10});
+                for(auto i : Iter){
+                    Iter.world().entity()
+                        .set<raylib::Vector2>(Positions[i])
+                        .set<Circle>({GREEN, 10});
+                }
             }
         });
 }
 
 void UserInput::InitGlobals(flecs::world& ecs)
 {
-    ecs.entity("PlayerMouse").set<MouseInfo>({});
+    ecs.entity("PlayerMouse")
+        .set<MouseInfo>({})
+        .set<raylib::Vector2>({GetMousePosition()})
+        .set<Circle>({WHITE, 5});
 }
 
-void UserInput::UpdateMouse(flecs::iter& Iter, MouseInfo* MouseInfos)
+void UserInput::UpdateMouse(flecs::iter& Iter, MouseInfo* MouseInfos, raylib::Vector2* Positions)
 {
     auto MousePosition = GetMousePosition();
     for(auto i : Iter)
     {
-        MouseInfos[i].PosDelta = MouseInfos[i].Position - MousePosition;
-        MouseInfos[i].Position = MousePosition;
+        MouseInfos[i].PosDelta = Positions[i] - MousePosition;
+        Positions[i] = MousePosition;
         auto e = Iter.entity(i);
         if(IsMouseButtonDown(MOUSE_BUTTON_LEFT))
         {

@@ -4,6 +4,8 @@
 
 #include "flecs.h"
 #include "raylib.h"
+#include "Vector2.hpp"
+#include "Window.hpp"
 
 struct RenderPhases
 {
@@ -15,12 +17,21 @@ struct RenderPhases
     flecs::query<> Pipeline;
 };
 
-struct WindowInfo
+struct MainWindow{};
+struct Window
 {
-    int Width;
-    int Height;
-    Color ClearColor;
+    raylib::Window* hndl;
+};
+struct WindowSize
+{
+    raylib::Vector2 dimension;
+};
+struct WindowTitle{
     std::string Title;
+};
+struct WindowFPS
+{
+    int Target;
 };
 
 struct Circle

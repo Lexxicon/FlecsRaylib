@@ -2,7 +2,6 @@
 
 struct MouseInfo
 {
-    raylib::Vector2 Position;
     raylib::Vector2 PosDelta;
 };
 

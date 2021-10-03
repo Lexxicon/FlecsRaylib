@@ -13,32 +13,25 @@ int main(int argc, char* argv[])
     
     // Initialization
     //--------------------------------------------------------------------------------------
-    flecs::world* ecs = new flecs::world;
+    flecs::world ecs;
 
     std::vector<LifecycleHandle> Systems{
         UserInput::MakeHandle(),
         Rendering::MakeHandle()
     };
-    LifecycleHandle::ProcessHandles(*ecs, Systems);
+    LifecycleHandle::ProcessHandles(ecs, Systems);
     
     //--------------------------------------------------------------------------------------
 
-    auto RenderRef = ecs->component<RenderPhases>().get_ref<RenderPhases>();
+    auto RenderRef = ecs.component<RenderPhases>().get_ref<RenderPhases>();
     // Main game loop
-    while (!WindowShouldClose() && ecs->progress())    // Detect window close button or ESC key
+    while (!WindowShouldClose() && ecs.progress())    // Detect window close button or ESC key
     {
         RenderRef->Pipeline.each([](flecs::entity RenderSystem)
         {
             flecs::system<>(RenderSystem.world(), RenderSystem).run();
         });
     }
-
-    delete ecs;
-
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
 
     return 0;
 }
