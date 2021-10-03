@@ -30,6 +30,19 @@ void Rendering::RegisterSystems(flecs::world& ecs)
         .event(flecs::OnSet)
         .iter(UpdateWindowFPS);
 
+
+    ecs.system<Window>("Check Exit Request")
+        .kind(flecs::PostFrame)
+        .iter([](flecs::iter& Iter, Window* Windows)
+        {
+            for(auto i : Iter)
+            {
+                if(Windows[i].hndl->ShouldClose())
+                {
+                    Iter.world().quit();
+                }
+            }
+        });
     
     ecs.system<Window>("BeginDrawing")
         .kind(flecs::type_id<RenderPhases::PreDraw>())

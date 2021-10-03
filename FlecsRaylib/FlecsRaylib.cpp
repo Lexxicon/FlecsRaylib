@@ -4,28 +4,21 @@
 #include "Core/FeatureLifecycle.h"
 #include "Data/Visuals.h"
 #include "flecs.h"
-#include "raylib.h"
 #include "Features//Rendering.h"
 #include "Features/UserInput.h"
 
 int main(int argc, char* argv[])
 {
-    
-    // Initialization
-    //--------------------------------------------------------------------------------------
     flecs::world ecs;
 
-    std::vector<LifecycleHandle> Systems{
+    std::vector<LifecycleHandle> Features{
         UserInput::MakeHandle(),
         Rendering::MakeHandle()
     };
-    LifecycleHandle::ProcessHandles(ecs, Systems);
-    
-    //--------------------------------------------------------------------------------------
+    LifecycleHandle::ProcessHandles(ecs, Features);
 
     auto RenderRef = ecs.component<RenderPhases>().get_ref<RenderPhases>();
-    // Main game loop
-    while (!WindowShouldClose() && ecs.progress())    // Detect window close button or ESC key
+    while (ecs.progress())
     {
         RenderRef->Pipeline.each([](flecs::entity RenderSystem)
         {
