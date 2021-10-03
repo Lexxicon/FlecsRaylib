@@ -15,10 +15,10 @@ void UserInput::RegisterTypes(flecs::world& ecs)
 void UserInput::RegisterSystems(flecs::world& ecs)
 {
     auto UpdateBuilder = ecs.system<MouseInfo, raylib::Vector2>("MouseUpdate");
-    ecs.component<MouseButtons>().children([&](flecs::entity Button)
-    {
-        UpdateBuilder.term(Button).oper(flecs::Optional).inout(flecs::Out);
-    });
+    auto ButtonType = ecs.component<MouseButtons>().get<flecs::Type>();
+    for(auto ButtonID : flecs::type(ecs, ButtonType->normalized).vector()){
+        UpdateBuilder.term(ButtonID).oper(flecs::Optional).inout(flecs::Out);
+    }
     UpdateBuilder
         .kind(flecs::PreFrame)
         .iter(UpdateMouse);
