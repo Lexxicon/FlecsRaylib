@@ -1,39 +1,39 @@
 
+#include <vector>
+
+#include "Core/SystemLifecycle.h"
+#include "Data/Visuals.h"
 #include "SubModules/flecs/flecs.h"
 #include "SubModules/raylib/src/raylib.h"
+#include "Systems/Rendering.h"
+#include "Systems/UserInput.h"
 
 int main(int argc, char* argv[])
 {
-    flecs::world ecs;
+    
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    flecs::world* ecs = new flecs::world;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    std::vector<LifecycleHandle> Systems{
+        UserInput::MakeHandle(),
+        Rendering::MakeHandle()
+    };
+    LifecycleHandle::ProcessHandles(*ecs, Systems);
+    
     //--------------------------------------------------------------------------------------
 
+    auto RenderRef = ecs->component<RenderPhases>().get_ref<RenderPhases>();
     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    while (!WindowShouldClose() && ecs->progress())    // Detect window close button or ESC key
+    {
+        RenderRef->Pipeline.each([](flecs::entity RenderSystem)
         {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
+            flecs::system<>(RenderSystem.world(), RenderSystem).run();
+        });
+    }
 
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE);
-
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-
-        EndDrawing();
-        //----------------------------------------------------------------------------------
-        }
+    delete ecs;
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
