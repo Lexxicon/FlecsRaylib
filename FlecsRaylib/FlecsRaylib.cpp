@@ -5,8 +5,8 @@
 #include "Data/Visuals.h"
 #include "SubModules/flecs/flecs.h"
 #include "SubModules/raylib/src/raylib.h"
-#include "Systems/Rendering.h"
-#include "Systems/UserInput.h"
+#include "Features//Rendering.h"
+#include "Features/UserInput.h"
 
 int main(int argc, char* argv[])
 {
