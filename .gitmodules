@@ -1,6 +1,6 @@
 [submodule "FlecsRaylib/SubModules/flecs"]
-	path = FlecsRaylib/SubModules/flecs
+	path = SubModules/flecs
 	url = git@github.com:SanderMertens/flecs.git
 [submodule "FlecsRaylib/SubModules/raylib"]
-	path = FlecsRaylib/SubModules/raylib
+	path = SubModules/raylib
 	url = git@github.com:raysan5/raylib.git

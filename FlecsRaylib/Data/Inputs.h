@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../SubModules/raylib/src/raylib.h"
+#include "raylib.h"
 
 struct MouseInfo
 {

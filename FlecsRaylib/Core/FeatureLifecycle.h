@@ -3,7 +3,7 @@
 #include <functional>
 #include <vector>
 
-#include "../SubModules/flecs/flecs.h"
+#include "flecs.h"
 
 struct LifecycleHandle
 {

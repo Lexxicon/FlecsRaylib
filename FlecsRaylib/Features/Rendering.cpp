@@ -1,7 +1,7 @@
 ﻿#include "Rendering.h"
 
-#include "../SubModules/flecs/flecs.h"
-#include "../SubModules/raylib/src/raylib.h"
+#include "flecs.h"
+#include "raylib.h"
 #include "../Data/Visuals.h"
 
 void Rendering::RegisterTypes(flecs::world& ecs)

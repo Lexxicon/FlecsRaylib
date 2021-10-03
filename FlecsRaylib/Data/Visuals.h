@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "../SubModules/flecs/flecs.h"
-#include "../SubModules/raylib/src/raylib.h"
+#include "flecs.h"
+#include "raylib.h"
 
 struct RenderPhases
 {

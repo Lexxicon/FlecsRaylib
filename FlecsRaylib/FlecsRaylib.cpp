@@ -3,8 +3,8 @@
 
 #include "Core/FeatureLifecycle.h"
 #include "Data/Visuals.h"
-#include "SubModules/flecs/flecs.h"
-#include "SubModules/raylib/src/raylib.h"
+#include "flecs.h"
+#include "raylib.h"
 #include "Features//Rendering.h"
 #include "Features/UserInput.h"
 

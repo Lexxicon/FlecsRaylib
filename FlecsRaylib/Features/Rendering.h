@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../Core/FeatureLifecycle.h"
-#include "../SubModules/flecs/flecs.h"
+#include "flecs.h"
 
 class Rendering : public FeatureLifecycle<Rendering>
 {
