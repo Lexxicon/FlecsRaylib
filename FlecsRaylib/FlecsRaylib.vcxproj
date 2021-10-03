@@ -160,22 +160,22 @@
    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Core\SystemLifecycle.cpp" />
+    <ClCompile Include="Core\FeatureLifecycle.cpp" />
     <ClCompile Include="Core\VectorOps.cpp" />
     <ClCompile Include="FlecsRaylib.cpp" />
     <ClCompile Include="SubModules\flecs\flecs.c" />
-    <ClCompile Include="Systems\Rendering.cpp" />
-    <ClCompile Include="Systems\UserInput.cpp" />
+    <ClCompile Include="Features\Rendering.cpp" />
+    <ClCompile Include="Features\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
-    <ClInclude Include="Core\SystemLifecycle.h" />
+    <ClInclude Include="Core\FeatureLifecycle.h" />
     <ClInclude Include="Core\VectorOps.h" />
     <ClInclude Include="Data\Inputs.h" />
     <ClInclude Include="Data\Visuals.h" />
     <ClInclude Include="SubModules\flecs\flecs.h" />
-    <ClInclude Include="Systems\Rendering.h" />
-    <ClInclude Include="Systems\UserInput.h" />
+    <ClInclude Include="Features\Rendering.h" />
+    <ClInclude Include="Features\UserInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="SubModules\raylib\projects\VS2019\raylib\raylib.vcxproj">

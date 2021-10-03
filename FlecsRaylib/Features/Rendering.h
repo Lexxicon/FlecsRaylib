@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include "../Core/SystemLifecycle.h"
+#include "../Core/FeatureLifecycle.h"
 #include "../SubModules/flecs/flecs.h"
 
-class Rendering : public SystemLifecycle<Rendering>
+class Rendering : public FeatureLifecycle<Rendering>
 {
 public:
     static void RegisterTypes(flecs::world& ecs);

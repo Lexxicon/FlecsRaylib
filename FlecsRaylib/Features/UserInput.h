@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include "../Core/SystemLifecycle.h"
+#include "../Core/FeatureLifecycle.h"
 
 struct MouseInfo;
 
-class UserInput : public SystemLifecycle<UserInput>
+class UserInput : public FeatureLifecycle<UserInput>
 {
 public:
     static void RegisterTypes(flecs::world& ecs);

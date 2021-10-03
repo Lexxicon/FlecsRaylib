@@ -15,7 +15,7 @@ struct LifecycleHandle
 };
 
 template <typename T>
-class SystemLifecycle 
+class FeatureLifecycle 
 {
 public:
     static LifecycleHandle MakeHandle()
