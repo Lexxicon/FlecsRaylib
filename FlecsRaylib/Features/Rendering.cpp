@@ -2,7 +2,8 @@
 
 #include "flecs.h"
 #include "raylib.h"
-#include "../Data/Visuals.h"
+#include "Vector2.hpp"
+#include "Data/Visuals.h"
 
 void Rendering::RegisterTypes(flecs::world& ecs)
 {
@@ -37,11 +38,11 @@ void Rendering::RegisterSystems(flecs::world& ecs)
             EndDrawing();
         });
     
-    ecs.system<Transform, Circle>("Draw Circles")
+    ecs.system<raylib::Vector2, Circle>("Draw Circles")
         .kind(flecs::type_id<RenderPhases::Draw>())
-        .each([](Transform& transform, Circle& circle)
+        .each([](raylib::Vector2& position, Circle& circle)
         {
-            DrawCircle(transform.translation.x, transform.translation.y, circle.Radius, circle.Color);
+            DrawCircleV(position, circle.Radius, circle.Color);
         });
 }
 

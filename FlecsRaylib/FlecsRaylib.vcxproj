@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SubModules\raylib\src;$(SolutionDir)\SubModules\flecs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SubModules\raylib\src;$(SolutionDir)\SubModules\raylib-cpp\include;$(SolutionDir)\SubModules\flecs;$(SolutionDir)\FlecsRaylib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,16 +166,50 @@
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
     <ClCompile Include="Core\FeatureLifecycle.cpp" />
-    <ClCompile Include="Core\VectorOps.cpp" />
     <ClCompile Include="FlecsRaylib.cpp" />
     <ClCompile Include="Features\Rendering.cpp" />
     <ClCompile Include="Features\UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\SubModules\flecs\flecs.h" />
-    <ClInclude Include="Common.h" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\AudioDevice.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\AudioStream.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\BoundingBox.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Camera2D.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Camera3D.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Color.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Font.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Functions.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Gamepad.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Image.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Material.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Matrix.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Mesh.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Model.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\ModelAnimation.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Mouse.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Music.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\physac.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Physics.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Ray.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\RayHitInfo.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\raylib-cpp-utils.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\raylib-cpp.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\raylib.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\raymath.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Rectangle.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\RenderTexture.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Shader.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Sound.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Text.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Texture.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Vector2.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Vector3.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Vector4.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\VrStereoConfig.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Wave.hpp" />
+    <ClInclude Include="..\SubModules\raylib-cpp\include\Window.hpp" />
     <ClInclude Include="Core\FeatureLifecycle.h" />
-    <ClInclude Include="Core\VectorOps.h" />
     <ClInclude Include="Data\Inputs.h" />
     <ClInclude Include="Data\Visuals.h" />
     <ClInclude Include="Features\Rendering.h" />
@@ -186,6 +220,12 @@
       <Project>{e89d61ac-55de-4482-afd4-df7242ebc859}</Project>
       <Name>raylib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\SubModules\raylib-cpp\include\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Update="..\SubModules\raylib-cpp\include" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

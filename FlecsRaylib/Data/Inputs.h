@@ -1,10 +1,9 @@
 ﻿#pragma once
-#include "raylib.h"
 
 struct MouseInfo
 {
-    Vector2 Position;
-    Vector2 PosDelta;
+    raylib::Vector2 Position;
+    raylib::Vector2 PosDelta;
 };
 
 struct MouseButtons

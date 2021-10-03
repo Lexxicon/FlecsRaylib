@@ -1,8 +1,8 @@
 ﻿#include "UserInput.h"
 
-#include "../Data/Inputs.h"
-#include "../Common.h"
-#include "../Data/Visuals.h"
+#include "Vector2.hpp"
+#include "Data/Inputs.h"
+#include "Data/Visuals.h"
 
 void UserInput::RegisterTypes(flecs::world& ecs)
 {
@@ -31,7 +31,7 @@ void UserInput::RegisterSystems(flecs::world& ecs)
             if(Iter.event_id() == flecs::type_id<MouseButtons::Left>())
             {
                 Iter.world().entity()
-                    .set<Transform>({{Info->Position.x, Info->Position.y}})
+                    .set<raylib::Vector2>({Info->Position})
                     .set<Circle>({GREEN, 10});
             }
         });

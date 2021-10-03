@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../Core/FeatureLifecycle.h"
+#include "Core/FeatureLifecycle.h"
 
 struct MouseInfo;
 

@@ -4,3 +4,6 @@
 [submodule "FlecsRaylib/SubModules/raylib"]
 	path = SubModules/raylib
 	url = git@github.com:raysan5/raylib.git
+[submodule ".\\SubModules\\raylib-cpp"]
+	path = .\\SubModules\\raylib-cpp
+	url = git@github.com:RobLoach/raylib-cpp.git
