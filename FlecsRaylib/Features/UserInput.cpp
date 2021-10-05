@@ -10,16 +10,17 @@ void UserInput::RegisterTypes(flecs::world& ecs)
         .add<MouseButtons::Left>()
         .add<MouseButtons::Middle>()
         .add<MouseButtons::Right>();
+
 }
 
 void UserInput::RegisterSystems(flecs::world& ecs)
 {
-    auto UpdateBuilder = ecs.system<MouseInfo, raylib::Vector2>("MouseUpdate");
+    auto MouseUpdateBuilder = ecs.system<MouseInfo, raylib::Vector2>("MouseUpdate");
     auto ButtonType = ecs.component<MouseButtons>().get<flecs::Type>();
     for(auto ButtonID : flecs::type(ecs, ButtonType->normalized).vector()){
-        UpdateBuilder.term(ButtonID).oper(flecs::Optional).inout(flecs::Out);
+        MouseUpdateBuilder.term(ButtonID).oper(flecs::Optional).inout(flecs::Out);
     }
-    UpdateBuilder
+    MouseUpdateBuilder
         .kind(flecs::PreFrame)
         .iter(UpdateMouse);
 
@@ -41,7 +42,7 @@ void UserInput::RegisterSystems(flecs::world& ecs)
 
 void UserInput::InitGlobals(flecs::world& ecs)
 {
-    ecs.entity("PlayerMouse")
+    ecs.component<MouseInfo>()
         .set<MouseInfo>({})
         .set<raylib::Vector2>({GetMousePosition()})
         .set<Circle>({WHITE, 5});
