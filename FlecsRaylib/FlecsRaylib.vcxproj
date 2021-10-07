@@ -165,7 +165,9 @@
       <AdditionalIncludeDirectories>F:\Projects\RayLib\FlecsRaylib\\SubModules\raylib\src;F:\Projects\RayLib\FlecsRaylib\\SubModules\flecs;</AdditionalIncludeDirectories>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="Core\CoreRendering.cpp" />
     <ClCompile Include="Core\FeatureLifecycle.cpp" />
+    <ClCompile Include="Core\InputBridge.cpp" />
     <ClCompile Include="FlecsRaylib.cpp" />
     <ClCompile Include="Features\Rendering.cpp" />
     <ClCompile Include="Features\UserInput.cpp" />
@@ -209,7 +211,10 @@
     <ClInclude Include="..\SubModules\raylib-cpp\include\VrStereoConfig.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\Wave.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\Window.hpp" />
+    <ClInclude Include="Core\CoreRendering.h" />
+    <ClInclude Include="Core\CoreTypes.h" />
     <ClInclude Include="Core\FeatureLifecycle.h" />
+    <ClInclude Include="Core\InputBridge.h" />
     <ClInclude Include="Data\Inputs.h" />
     <ClInclude Include="Data\Visuals.h" />
     <ClInclude Include="Features\Rendering.h" />

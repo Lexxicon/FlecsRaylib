@@ -4,6 +4,8 @@
 #include "Core/FeatureLifecycle.h"
 #include "Data/Visuals.h"
 #include "flecs.h"
+#include "Core/CoreRendering.h"
+#include "Core/InputBridge.h"
 #include "Features//Rendering.h"
 #include "Features/UserInput.h"
 
@@ -12,6 +14,8 @@ int main(int argc, char* argv[])
     flecs::world ecs;
 
     std::vector<LifecycleHandle> Features{
+        CoreRendering::MakeHandle(),
+        InputBridge::MakeHandle(),
         UserInput::MakeHandle(),
         Rendering::MakeHandle()
     };

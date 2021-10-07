@@ -1,13 +1,5 @@
 ﻿#pragma once
 
-struct MouseInfo
-{
-    raylib::Vector2 PosDelta;
-};
+struct SpawnCircleAtMouse{};
 
-struct MouseButtons
-{
-    struct Left{};
-    struct Middle{};
-    struct Right{};
-};
+struct MoveLeft{};
