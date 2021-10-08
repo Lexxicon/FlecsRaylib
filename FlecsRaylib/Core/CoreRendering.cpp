@@ -72,7 +72,7 @@ int CoreRendering::CompareEntityID(ecs_entity_t e1, const void* ptr1, ecs_entity
     return (e1 > e2) - (e1 < e2);
 }
 
-int CoreRendering::GetTypeRank(flecs::world_t* m_world, flecs::type_t m_table_type, flecs::entity_t m_grp_type, void*)
+uint64_t CoreRendering::GetTypeRank(flecs::world_t* m_world, flecs::type_t m_table_type, flecs::entity_t m_grp_type, void*)
 {
     flecs::type TableType(m_world, m_table_type);
     for(auto ColId : TableType.vector())

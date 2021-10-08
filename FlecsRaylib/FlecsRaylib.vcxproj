@@ -215,6 +215,7 @@
     <ClInclude Include="Core\CoreTypes.h" />
     <ClInclude Include="Core\FeatureLifecycle.h" />
     <ClInclude Include="Core\InputBridge.h" />
+    <ClInclude Include="Data\GameTypes.h" />
     <ClInclude Include="Data\Inputs.h" />
     <ClInclude Include="Data\Visuals.h" />
     <ClInclude Include="Features\Rendering.h" />

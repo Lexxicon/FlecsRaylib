@@ -1,7 +1,6 @@
 ﻿#pragma once
+#include "CoreTypes.h"
 #include "FeatureLifecycle.h"
-#include "Window.hpp"
-#include "Data/Visuals.h"
 
 class CoreRendering : public FeatureLifecycle<CoreRendering>
 {
@@ -15,7 +14,7 @@ private:
     static int CompareEntityID(
          ecs_entity_t e1, const void *ptr1, 
          ecs_entity_t e2, const void *ptr2);
-    static int GetTypeRank(
+    static uint64_t GetTypeRank(
          flecs::world_t* m_world,
          flecs::type_t m_table_type,
          flecs::entity_t m_grp_type,

@@ -1,7 +1,7 @@
 ﻿#include "UserInput.h"
 
-#include "Vector2.hpp"
 #include "Core/CoreTypes.h"
+#include "Data/GameTypes.h"
 #include "Data/Inputs.h"
 #include "Data/Visuals.h"
 
@@ -16,6 +16,18 @@ void UserInput::RegisterTypes(flecs::world& ecs)
         .set<KeyBinding>({
             KeyboardKey::KEY_A
         });
+    ecs.component<MoveRight>()
+        .set<KeyBinding>({
+            KeyboardKey::KEY_D
+        });
+    ecs.component<MoveUp>()
+        .set<KeyBinding>({
+            KeyboardKey::KEY_W
+        });
+    ecs.component<MoveDown>()
+        .set<KeyBinding>({
+            KeyboardKey::KEY_S
+        });
 
 }
 
@@ -26,22 +38,49 @@ void UserInput::RegisterSystems(flecs::world& ecs)
         .event(flecs::OnAdd)
         .iter([](flecs::iter& Iter)
         {
-            printf("Clicked\n");
             for(auto i : Iter)
             {
-                printf("%s\n", Iter.entity(i).str().c_str());
+                Iter.world().entity()
+                    .add<ControlledCircle>()
+                    .set<Circle>({LIME, 10})
+                    .set<Position>({*Iter.world().component<MouseInfo>().get<raylib::Vector2>()});
             }
         });
-
-    ecs.observer()
-        .term<MoveLeft>()
-        .event(flecs::OnAdd)
-        .iter([](flecs::iter& Iter)
+    ecs.system()
+        .term<MoveLeft>().singleton().oper(flecs::Optional)
+        .term<MoveRight>().singleton().oper(flecs::Optional)
+        .iter([](flecs::iter& It)
+    {
+    });
+    ecs.system<MoveInput>()
+        .arg(1).singleton()
+        .iter([](flecs::iter& Iter, MoveInput* Input)
         {
-            printf("Move Left\n");
+            raylib::Vector2 MappedInput;
+            MappedInput.x += Iter.world().has<MoveLeft>() * -1;
+            MappedInput.x += Iter.world().has<MoveRight>() * 1;
+            MappedInput.y += Iter.world().has<MoveUp>() * -1;
+            MappedInput.y += Iter.world().has<MoveDown>() * 1;
+            MappedInput = MappedInput.Normalize();
+            
+            Input->Value = MappedInput;
+        });
+
+    ecs.system<MouseInfo, raylib::Vector2, Position>()
+        .kind(flecs::PreFrame)
+        .each([](MouseInfo&, raylib::Vector2& v, Position& p)
+        {
+            p.Value = v;
+        });
+    
+    ecs.system<Position, MoveInput>()
+        .arg(2).singleton()
+        .term<ControlledCircle>()
+        .iter([](flecs::iter& Iter, Position* p, MoveInput* input)
+        {
             for(auto i : Iter)
             {
-                printf("%s\n", Iter.entity(i).str().c_str());
+                p[i].Value += input->Value * Iter.delta_time() * 100;
             }
         });
 }
@@ -49,13 +88,7 @@ void UserInput::RegisterSystems(flecs::world& ecs)
 void UserInput::InitGlobals(flecs::world& ecs)
 {
     ecs.component<MouseInfo>()
+        .add<Position>()
         .set<Circle>({WHITE, 5});
-}
-
-void UserInput::UpdateMouse(flecs::iter& Iter, MouseInfo* MouseInfos, raylib::Vector2* Positions)
-{
-    auto MousePosition = GetMousePosition();
-    for(auto i : Iter)
-    {
-    }
+    ecs.set<MoveInput>({});
 }
