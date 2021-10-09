@@ -168,6 +168,7 @@
     <ClCompile Include="Core\CoreRendering.cpp" />
     <ClCompile Include="Core\FeatureLifecycle.cpp" />
     <ClCompile Include="Core\InputBridge.cpp" />
+    <ClCompile Include="Features\WorldTimeHandler.cpp" />
     <ClCompile Include="FlecsRaylib.cpp" />
     <ClCompile Include="Features\Rendering.cpp" />
     <ClCompile Include="Features\UserInput.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Data\Visuals.h" />
     <ClInclude Include="Features\Rendering.h" />
     <ClInclude Include="Features\UserInput.h" />
+    <ClInclude Include="Features\WorldTimeHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SubModules\raylib\projects\VS2019\raylib\raylib.vcxproj">

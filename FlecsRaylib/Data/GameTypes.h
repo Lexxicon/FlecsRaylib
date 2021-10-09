@@ -1,26 +1,51 @@
 ﻿#pragma once
 
+#include <string>
+
 #include "Vector2.hpp"
 
 struct ControlledCircle{};
-
-struct TimedLife
-{
-    float StartTime;
-    float TimeRemaining;
-};
 
 struct Position
 {
     raylib::Vector2 Value;
 };
 
-struct Velocity
+struct WorldTimeConfig
 {
-    raylib::Vector2 Value;
+    float DayDuration;
+    float NightDuration;
 };
 
-struct Drag
+struct WorldTime
 {
-    raylib::Vector2 Value;
+    int CurrentDay;
+};
+
+struct DayPhase{};
+struct NightPhase{};
+struct TimeLeftInPhase
+{
+    float Value;
+};
+
+struct Pawn
+{
+    std::string Name;
+};
+
+struct MaxHealth
+{
+    float Value;
+};
+struct Health
+{
+    float Current;
+};
+
+struct Job
+{
+    struct Miner{};
+    struct LumberJack{};
+    struct Builder{};
 };

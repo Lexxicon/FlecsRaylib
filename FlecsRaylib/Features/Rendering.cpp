@@ -13,6 +13,24 @@ void Rendering::RegisterSystems(flecs::world& ecs)
     ecs.system<const Position, const Circle>("Draw Circles")
         .kind(flecs::type_id<RenderPhases::Draw>())
         .iter(DrawCircles);
+
+    ecs.system<const WindowSize>()
+        .arg(1).entity(ecs.component<MainWindow>())
+        .term<DayPhase>()
+        .kind(flecs::type_id<RenderPhases::Draw>())
+        .iter([](flecs::iter& Iter, const WindowSize* Window)
+        {
+            DrawText("Day", Window->dimension.x/2 - 74, Window->dimension.y/2 + 54, 50, WHITE);
+        });
+
+    ecs.system<const WindowSize>()
+        .arg(1).entity(ecs.component<MainWindow>())
+        .term<NightPhase>()
+        .kind(flecs::type_id<RenderPhases::Draw>())
+        .iter([](flecs::iter& Iter, const WindowSize* Window)
+        {
+            DrawText("Night", Window->dimension.x/2 - 74, Window->dimension.y/2 + 54, 50, WHITE);
+        });
 }
 
 void Rendering::InitGlobals(flecs::world& ecs)

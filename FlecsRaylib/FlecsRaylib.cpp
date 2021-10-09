@@ -8,16 +8,22 @@
 #include "Core/InputBridge.h"
 #include "Features//Rendering.h"
 #include "Features/UserInput.h"
+#include "Features/WorldTimeHandler.h"
 
 int main(int argc, char* argv[])
 {
+    ecs_os_init();
+    ecs_tracing_enable(1);
+    ecs_tracing_color_enable(false);
+    
     flecs::world ecs;
 
     std::vector<LifecycleHandle> Features{
         CoreRendering::MakeHandle(),
         InputBridge::MakeHandle(),
         UserInput::MakeHandle(),
-        Rendering::MakeHandle()
+        Rendering::MakeHandle(),
+        WorldTimeHandler::MakeHandle()
     };
     LifecycleHandle::ProcessHandles(ecs, Features);
 

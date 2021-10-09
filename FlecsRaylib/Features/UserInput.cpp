@@ -48,10 +48,10 @@ void UserInput::RegisterSystems(flecs::world& ecs)
         });
     
     ecs.system<MoveInput>()
-        .term<MoveLeft>().singleton().oper(flecs::Optional)
-        .term<MoveRight>().singleton().oper(flecs::Optional)
-        .term<MoveUp>().singleton().oper(flecs::Optional)
-        .term<MoveDown>().singleton().oper(flecs::Optional)
+        .term<const MoveLeft>().singleton().oper(flecs::Optional)
+        .term<const MoveRight>().singleton().oper(flecs::Optional)
+        .term<const MoveUp>().singleton().oper(flecs::Optional)
+        .term<const MoveDown>().singleton().oper(flecs::Optional)
         .iter([](flecs::iter& Iter, MoveInput* Input)
         {
             raylib::Vector2 MappedInput;
