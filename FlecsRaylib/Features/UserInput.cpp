@@ -46,24 +46,26 @@ void UserInput::RegisterSystems(flecs::world& ecs)
                     .set<Position>({*Iter.world().component<MouseInfo>().get<raylib::Vector2>()});
             }
         });
-    ecs.system()
+    
+    ecs.system<MoveInput>()
         .term<MoveLeft>().singleton().oper(flecs::Optional)
         .term<MoveRight>().singleton().oper(flecs::Optional)
-        .iter([](flecs::iter& It)
-    {
-    });
-    ecs.system<MoveInput>()
-        .arg(1).singleton()
+        .term<MoveUp>().singleton().oper(flecs::Optional)
+        .term<MoveDown>().singleton().oper(flecs::Optional)
         .iter([](flecs::iter& Iter, MoveInput* Input)
         {
             raylib::Vector2 MappedInput;
-            MappedInput.x += Iter.world().has<MoveLeft>() * -1;
-            MappedInput.x += Iter.world().has<MoveRight>() * 1;
-            MappedInput.y += Iter.world().has<MoveUp>() * -1;
-            MappedInput.y += Iter.world().has<MoveDown>() * 1;
-            MappedInput = MappedInput.Normalize();
             
-            Input->Value = MappedInput;
+            MappedInput.x += Iter.is_set(2) * -1;
+            MappedInput.x += Iter.is_set(3) * 1;
+            MappedInput.y += Iter.is_set(4) * -1;
+            MappedInput.y += Iter.is_set(5) * 1;
+            MappedInput = MappedInput.Normalize();
+
+            for(auto i : Iter)
+            {
+                Input[i].Value = MappedInput;
+            }
         });
 
     ecs.system<MouseInfo, raylib::Vector2, Position>()

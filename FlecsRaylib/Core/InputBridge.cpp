@@ -11,12 +11,10 @@ void InputBridge::RegisterSystems(flecs::world& ecs)
         .iter(UpdateMouse);
     
     ecs.system<const MouseBinding>("Trigger Mouse Bindings")
-        .term<flecs::Component>().oper(flecs::Optional)
         .kind(flecs::PreFrame)
         .iter(TriggerMouseBindings);
 
     ecs.system<const KeyBinding>("Trigger Key Bindings")
-        .term<flecs::Component>().oper(flecs::Optional)
         .kind(flecs::PreFrame)
         .iter(TriggerKeyBindings);
 }
