@@ -91,7 +91,6 @@ uint64_t CoreRendering::GetTypeRank(flecs::world_t* m_world, flecs::type_t m_tab
             }
         }
     }
-    ecs_os_err("Failed to find group for %s", TableType.str());
     return 0;
 }
 

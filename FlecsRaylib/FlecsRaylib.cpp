@@ -13,8 +13,8 @@
 int main(int argc, char* argv[])
 {
     ecs_os_init();
-    ecs_tracing_enable(1);
-    ecs_tracing_color_enable(false);
+    ecs_log_set_level(1);
+    ecs_log_enable_colors(false);
     
     flecs::world ecs;
 
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     {
         RenderRef->Pipeline.each([](flecs::entity RenderSystem)
         {
-            flecs::system<>(RenderSystem.world(), RenderSystem).run();
+            flecs::system(RenderSystem.world(), RenderSystem).run();
         });
     }
 
