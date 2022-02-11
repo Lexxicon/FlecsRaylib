@@ -40,10 +40,10 @@ void WorldTimeHandler::AdvanceDayPhase(flecs::iter& Iter, TimeLeftInPhase* Count
         if(Countdown[i].Value <= 0)
         {
             auto e = Iter.entity(i);
-            flecs::id_t CurrentPhase = Iter.term_id(1).object();
+            flecs::id_t CurrentPhase = Iter.id(1).object();
             flecs::id_t NextPhase;
             TimeLeftInPhase NextDuration{Countdown[i].Value};
-            if(Iter.term_id(1).object() == flecs::type_id<DayPhase>())
+            if(Iter.id(1).object() == flecs::type_id<DayPhase>())
             {
                 NextPhase = flecs::type_id<NightPhase>();
                 NextDuration.Value += TimeConfig->NightDuration;

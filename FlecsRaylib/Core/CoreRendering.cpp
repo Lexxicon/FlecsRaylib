@@ -2,7 +2,7 @@
 
 void CoreRendering::RegisterTypes(flecs::world& ecs)
 {
-    ecs.type().component<RenderPhases>()
+    ecs.type<RenderPhases>()
         .add<RenderPhases::PreDraw>()
         .add<RenderPhases::Background>()
         .add<RenderPhases::Draw>()
@@ -74,8 +74,8 @@ int CoreRendering::CompareEntityID(ecs_entity_t e1, const void* ptr1, ecs_entity
 
 uint64_t CoreRendering::GetTypeRank(flecs::world_t* m_world, flecs::type_t m_table_type, flecs::entity_t m_grp_type, void*)
 {
-    flecs::type TableType(m_world, m_table_type);
-    for(auto ColId : TableType.vector())
+    flecs::vector<flecs::id_t> TableType(const_cast<ecs_vector_t*>(m_table_type));
+    for(auto ColId : TableType)
     {
         flecs::entity e(m_world, ColId);
         if(e.is_valid() && e.has(flecs::ChildOf, m_grp_type))

@@ -21,7 +21,7 @@ void Rendering::RegisterSystems(flecs::world& ecs)
         .kind(flecs::type_id<RenderPhases::Draw>())
         .iter([](flecs::iter& Iter, const WindowSize* Window)
         {
-            DrawText(Iter.term_id(2) == flecs::type_id<DayPhase>() ?  "Day" : "Night",
+            DrawText(Iter.id(2) == flecs::type_id<DayPhase>() ?  "Day" : "Night",
                 Window->dimension.x/2 - 74, Window->dimension.y/2 + 54, 50, WHITE);
         });
 }
