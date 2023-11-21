@@ -14,11 +14,7 @@ private:
     static int CompareEntityID(
          ecs_entity_t e1, const void *ptr1, 
          ecs_entity_t e2, const void *ptr2);
-    static uint64_t GetTypeRank(
-         flecs::world_t* m_world,
-         flecs::type_t m_table_type,
-         flecs::entity_t m_grp_type,
-         void*);
+    static uint64_t GetTypeRank(flecs::world_t* m_world, flecs::table_t* m_table_type, flecs::id_t m_grp_type, void*);
     
     // Observers
     static void WindowLifecycleHandler(flecs::iter& Iter, Window* windows);

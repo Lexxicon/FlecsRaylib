@@ -15,7 +15,6 @@
     <ProjectGuid>{431C3908-089B-4FF0-917B-8FABCF920F4A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FlecsRaylib</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup>
@@ -62,6 +61,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)\SubModules\raylib\src;$(SolutionDir)\SubModules\raylib-cpp\include;$(SolutionDir)\SubModules\flecs;$(SolutionDir)\FlecsRaylib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -82,6 +82,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)\SubModules\raylib\src;$(SolutionDir)\SubModules\raylib-cpp\include;$(SolutionDir)\SubModules\flecs;$(SolutionDir)\FlecsRaylib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -193,10 +194,7 @@
     <ClInclude Include="..\SubModules\raylib-cpp\include\ModelAnimation.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\Mouse.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\Music.hpp" />
-    <ClInclude Include="..\SubModules\raylib-cpp\include\physac.hpp" />
-    <ClInclude Include="..\SubModules\raylib-cpp\include\Physics.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\Ray.hpp" />
-    <ClInclude Include="..\SubModules\raylib-cpp\include\RayHitInfo.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\raylib-cpp-utils.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\raylib-cpp.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\raylib.hpp" />

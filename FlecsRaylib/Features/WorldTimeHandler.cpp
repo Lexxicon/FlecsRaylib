@@ -9,11 +9,11 @@ void WorldTimeHandler::RegisterTypes(flecs::world& ecs)
 void WorldTimeHandler::RegisterSystems(flecs::world& ecs)
 {
     ecs.system<TimeLeftInPhase, WorldTime, const WorldTimeConfig>()
-        .arg(1).obj(flecs::Wildcard).inout(flecs::InOut)
+        .arg(1).second(flecs::Wildcard).inout(flecs::InOut)
         .arg(2).singleton()
         .arg(3).singleton()
-        .term<DayPhase>().set(flecs::Nothing).inout(flecs::Out)
-        .term<NightPhase>().set(flecs::Nothing).inout(flecs::Out)
+        .write<DayPhase>()
+        .write<NightPhase>()
         .kind(flecs::PreFrame)
         .iter(AdvanceDayPhase);
 }
@@ -40,10 +40,10 @@ void WorldTimeHandler::AdvanceDayPhase(flecs::iter& Iter, TimeLeftInPhase* Count
         if(Countdown[i].Value <= 0)
         {
             auto e = Iter.entity(i);
-            flecs::id_t CurrentPhase = Iter.id(1).object();
+            flecs::id_t CurrentPhase = Iter.id(1).second();
             flecs::id_t NextPhase;
             TimeLeftInPhase NextDuration{Countdown[i].Value};
-            if(Iter.id(1).object() == flecs::type_id<DayPhase>())
+            if(Iter.id(1).second() == flecs::type_id<DayPhase>())
             {
                 NextPhase = flecs::type_id<NightPhase>();
                 NextDuration.Value += TimeConfig->NightDuration;

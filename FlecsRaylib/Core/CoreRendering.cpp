@@ -2,7 +2,7 @@
 
 void CoreRendering::RegisterTypes(flecs::world& ecs)
 {
-    ecs.type<RenderPhases>()
+    ecs.entity<RenderPhases>()
         .add<RenderPhases::PreDraw>()
         .add<RenderPhases::Background>()
         .add<RenderPhases::Draw>()
@@ -40,29 +40,37 @@ void CoreRendering::RegisterSystems(flecs::world& ecs)
         });
     
     ecs.system<Window>("BeginDrawing")
-        .kind(flecs::type_id<RenderPhases::PreDraw>())
+        .kind<RenderPhases::PreDraw>()
         .iter(BeginDrawing);
     ecs.system<Window>("EndDraw")
-        .kind(flecs::type_id<RenderPhases::PostDraw>())
+        .kind<RenderPhases::PostDraw>()
         .iter(EndDrawing);
 }
 
 void CoreRendering::InitGlobals(flecs::world& ecs)
 {
-    ecs.set<RenderPhases>({BuildRenderPipeline(ecs)});
+    // ecs.set<RenderPhases>({BuildRenderPipeline(ecs)});
 }
 
 flecs::query<> CoreRendering::BuildRenderPipeline(flecs::world& ecs)
 {
     auto builder = ecs.query_builder()
-     .term(flecs::System)
-     .order_by(0, CompareEntityID)
-     .group_by(flecs::type_id<RenderPhases>(), GetTypeRank);
+     // .term(flecs::System)
+     .term<RenderPhases::PreDraw>().oper(flecs::Or)
+     .term<RenderPhases::Background>().oper(flecs::Or)
+     .term<RenderPhases::Draw>().oper(flecs::Or)
+     .term<RenderPhases::PostDraw>()
+     // .order_by(0, CompareEntityID)
+     // .group_by(flecs::type_id<RenderPhases>(), GetTypeRank)
+    ;
 
-    auto PhaseType = ecs.component<RenderPhases>().get<flecs::Type>();
-    for(auto TypeID : flecs::type(ecs, PhaseType->normalized).vector()){
-        builder.term(TypeID).oper(flecs::Or);
-    }
+    // flecs::type PhaseType = ecs.component<RenderPhases>().type();
+    // bool bFirst = true;
+    // for(auto TypeID : PhaseType){
+    //     if(!bFirst) builder.oper(flecs::Or);
+    //     builder.term(TypeID);
+    //     bFirst = false;
+    // }
     
     return builder.build();
 }
@@ -72,17 +80,18 @@ int CoreRendering::CompareEntityID(ecs_entity_t e1, const void* ptr1, ecs_entity
     return (e1 > e2) - (e1 < e2);
 }
 
-uint64_t CoreRendering::GetTypeRank(flecs::world_t* m_world, flecs::type_t m_table_type, flecs::entity_t m_grp_type, void*)
+uint64_t CoreRendering::GetTypeRank(flecs::world_t* m_world, flecs::table_t* m_table_type, flecs::id_t m_grp_type, void*)
 {
-    flecs::vector<flecs::id_t> TableType(const_cast<ecs_vector_t*>(m_table_type));
-    for(auto ColId : TableType)
+    flecs::table TableType(m_world, m_table_type);
+    
+    for(auto ColId : TableType.type())
     {
         flecs::entity e(m_world, ColId);
         if(e.is_valid() && e.has(flecs::ChildOf, m_grp_type))
         {
             int i = 0;
-            auto GrpType = flecs::entity(m_world, m_grp_type).get<flecs::Type>();
-            for(auto TypeID : flecs::type(m_world, GrpType->normalized).vector()){
+            const flecs::type GrpType = flecs::entity(m_world, m_grp_type).type();
+            for(auto TypeID : GrpType){
                 if(ColId == TypeID)
                 {
                     return i;
@@ -100,7 +109,7 @@ void CoreRendering::WindowLifecycleHandler(flecs::iter& Iter, Window* windows)
     {
         for(auto i : Iter)
         {
-            windows[i].hndl = new raylib::Window;
+            windows[i].hndl = new raylib::Window(100, 100);
         }
     }else if(Iter.event() == flecs::OnRemove)
     {

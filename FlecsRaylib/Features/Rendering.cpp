@@ -11,14 +11,14 @@
 void Rendering::RegisterSystems(flecs::world& ecs)
 {   
     ecs.system<const Position, const Circle>("Draw Circles")
-        .kind(flecs::type_id<RenderPhases::Draw>())
+        .kind<RenderPhases::Draw>()
         .iter(DrawCircles);
 
     ecs.system<const WindowSize>()
         .arg(1).entity(ecs.component<MainWindow>())
         .term<DayPhase>().oper(flecs::Or)
-        .term<NightPhase>().oper(flecs::Or)
-        .kind(flecs::type_id<RenderPhases::Draw>())
+        .term<NightPhase>()
+        .kind<RenderPhases::Draw>()
         .iter([](flecs::iter& Iter, const WindowSize* Window)
         {
             DrawText(Iter.id(2) == flecs::type_id<DayPhase>() ?  "Day" : "Night",

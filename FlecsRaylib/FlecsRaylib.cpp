@@ -13,10 +13,26 @@
 int main(int argc, char* argv[])
 {
     ecs_os_init();
-    ecs_log_set_level(1);
-    ecs_log_enable_colors(false);
+
+    struct QueryHolder
+    {
+        flecs::query<> Query;
+    };
+    struct SomeTag{};
     
     flecs::world ecs;
+    
+    flecs::query_builder<> build = ecs.query_builder<>().term<SomeTag>();
+    // ecs.set<QueryHolder>({build.build()});
+    //
+    // ecs.entity().add<SomeTag>();
+    // ecs.component<QueryHolder>().add<SomeTag>();
+    //
+    // ecs.get<QueryHolder>()->Query.each([](flecs::entity e)
+    // {
+    //     printf("found %llu\n", e.id());
+    // });
+    // return 0;
 
     std::vector<LifecycleHandle> Features{
         CoreRendering::MakeHandle(),
@@ -26,8 +42,21 @@ int main(int argc, char* argv[])
         WorldTimeHandler::MakeHandle()
     };
     LifecycleHandle::ProcessHandles(ecs, Features);
+    
+    ecs_log_set_level(1);
+    ecs_log_enable_colors(false);
 
-    auto RenderRef = ecs.component<RenderPhases>().get_ref<RenderPhases>();
+    flecs::query_builder<> RenderQueryBuilder = ecs.query_builder()
+                                    .term(flecs::System)
+                                    .term<RenderPhases::PreDraw>().oper(flecs::Or)
+                                    .term<RenderPhases::Background>().oper(flecs::Or)
+                                    .term<RenderPhases::Draw>().oper(flecs::Or)
+                                    .term<RenderPhases::PostDraw>()
+    ;
+
+    ecs.set<RenderPhases>(RenderPhases{RenderQueryBuilder.build()});
+    
+    auto RenderRef = ecs.get_ref<RenderPhases>();
     while (ecs.progress())
     {
         RenderRef->Pipeline.each([](flecs::entity RenderSystem)
