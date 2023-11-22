@@ -57,9 +57,10 @@ void UserInput::RegisterSystems(flecs::world& ecs)
             raylib::Vector2 MappedInput;
             
             MappedInput.x += Iter.is_set(2) * -1;
-            MappedInput.x += Iter.is_set(3) * 1;
+            MappedInput.x += Iter.is_set(3) *  1;
             MappedInput.y += Iter.is_set(4) * -1;
-            MappedInput.y += Iter.is_set(5) * 1;
+            MappedInput.y += Iter.is_set(5) *  1;
+            
             MappedInput = MappedInput.Normalize();
 
             for(auto i : Iter)

@@ -2,7 +2,7 @@
 
 void CoreRendering::RegisterTypes(flecs::world& ecs)
 {
-    ecs.entity<RenderPhases>()
+    ecs.component<RenderPhases>()
         .add<RenderPhases::PreDraw>()
         .add<RenderPhases::Background>()
         .add<RenderPhases::Draw>()
@@ -49,28 +49,23 @@ void CoreRendering::RegisterSystems(flecs::world& ecs)
 
 void CoreRendering::InitGlobals(flecs::world& ecs)
 {
-    // ecs.set<RenderPhases>({BuildRenderPipeline(ecs)});
+    ecs.set<RenderPhases>({BuildRenderPipeline(ecs)});
 }
 
 flecs::query<> CoreRendering::BuildRenderPipeline(flecs::world& ecs)
 {
     auto builder = ecs.query_builder()
-     // .term(flecs::System)
-     .term<RenderPhases::PreDraw>().oper(flecs::Or)
-     .term<RenderPhases::Background>().oper(flecs::Or)
-     .term<RenderPhases::Draw>().oper(flecs::Or)
-     .term<RenderPhases::PostDraw>()
-     // .order_by(0, CompareEntityID)
-     // .group_by(flecs::type_id<RenderPhases>(), GetTypeRank)
-    ;
+        .term(flecs::System)
+        .order_by(0, CompareEntityID)
+        .group_by(flecs::type_id<RenderPhases>(), GetTypeRank);
 
-    // flecs::type PhaseType = ecs.component<RenderPhases>().type();
-    // bool bFirst = true;
-    // for(auto TypeID : PhaseType){
-    //     if(!bFirst) builder.oper(flecs::Or);
-    //     builder.term(TypeID);
-    //     bFirst = false;
-    // }
+    flecs::type PhaseType = ecs.component<RenderPhases>().type();
+    for(auto TypeID : PhaseType){
+        builder.term(TypeID).oper(flecs::Or);
+    }
+
+    // final term can't be an Or
+    builder.oper(flecs::And);
     
     return builder.build();
 }
