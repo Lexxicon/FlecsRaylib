@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlecsRaylib", "FlecsRaylib\FlecsRaylib.vcxproj", "{431C3908-089B-4FF0-917B-8FABCF920F4A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "raylib", "SubModules\raylib\projects\VS2022\raylib\raylib.vcxproj", "{E89D61AC-55DE-4482-AFD4-DF7242EBC859}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -12,5 +14,9 @@ Global
 		{431C3908-089B-4FF0-917B-8FABCF920F4A}.Debug|x64.Build.0 = Debug|x64
 		{431C3908-089B-4FF0-917B-8FABCF920F4A}.Release|x64.ActiveCfg = Release|x64
 		{431C3908-089B-4FF0-917B-8FABCF920F4A}.Release|x64.Build.0 = Release|x64
+		{E89D61AC-55DE-4482-AFD4-DF7242EBC859}.Debug|x64.ActiveCfg = Debug|x64
+		{E89D61AC-55DE-4482-AFD4-DF7242EBC859}.Debug|x64.Build.0 = Debug|x64
+		{E89D61AC-55DE-4482-AFD4-DF7242EBC859}.Release|x64.ActiveCfg = Release|x64
+		{E89D61AC-55DE-4482-AFD4-DF7242EBC859}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal

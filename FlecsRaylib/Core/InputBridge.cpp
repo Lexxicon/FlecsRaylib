@@ -16,7 +16,13 @@ void InputBridge::RegisterSystems(flecs::world& ecs)
 
     ecs.system<const KeyBinding>("Trigger Key Bindings")
         .kind(flecs::PreFrame)
-        .iter(TriggerKeyBindings);
+        .each([](flecs::entity e, const KeyBinding& binding){
+            if(IsKeyDown(binding.Key)){
+                e.add(e);
+            } else {
+                e.remove(e);
+            }
+        });
 }
 
 void InputBridge::InitGlobals(flecs::world& ecs)
@@ -51,17 +57,11 @@ void InputBridge::TriggerMouseBindings(flecs::iter& Iter, const MouseBinding* bi
     }
 }
 
-void InputBridge::TriggerKeyBindings(flecs::iter& Iter, const KeyBinding* binding)
+void InputBridge::TriggerKeyBindings(flecs::entity e, const KeyBinding& binding)
 {
-    for(auto i : Iter)
-    {
-        auto e = Iter.entity(i);
-        if(IsKeyDown(binding[i].Bind))
-        {
-            e.add(e);
-        }else
-        {
-            e.remove(e);
-        }
+    if(IsKeyDown(binding.Key)){
+        e.add(e);
+    } else {
+        e.remove(e);
     }
 }

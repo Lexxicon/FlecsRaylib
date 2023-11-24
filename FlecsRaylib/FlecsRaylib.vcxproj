@@ -223,12 +223,6 @@
     <ClInclude Include="Features\WorldTimeHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SubModules\raylib\projects\VS2019\raylib\raylib.vcxproj">
-      <Project>{e89d61ac-55de-4482-afd4-df7242ebc859}</Project>
-      <Name>raylib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\SubModules\raylib-cpp\include\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>

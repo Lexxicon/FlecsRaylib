@@ -38,13 +38,11 @@ void UserInput::RegisterSystems(flecs::world& ecs)
         .event(flecs::OnAdd)
         .iter([](flecs::iter& Iter)
         {
-            for(auto i : Iter)
-            {
-                Iter.world().entity()
-                    .add<ControlledCircle>()
-                    .set<Circle>({LIME, 10})
-                    .set<Position>({*Iter.world().component<MouseInfo>().get<raylib::Vector2>()});
-            }
+            auto MousePos = *Iter.world().singleton<MouseInfo>().get<raylib::Vector2>();
+            Iter.world().entity()
+                .add<ControlledCircle>()
+                .set<Circle>({LIME, 10})
+                .set<Position>({MousePos});
         });
     
     ecs.system<MoveInput>()

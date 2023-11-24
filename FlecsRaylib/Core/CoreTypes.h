@@ -15,7 +15,13 @@ struct MouseBinding
 
 struct KeyBinding
 {
-    KeyboardKey Bind;
+    KeyboardKey Key;
+};
+
+struct AxisBinding
+{
+    void* Positive = nullptr;
+    void* Negative = nullptr;
 };
 
 

@@ -58,12 +58,12 @@ flecs::query<> CoreRendering::BuildRenderPipeline(flecs::world& ecs)
         .term(flecs::System)
         .order_by(0, CompareEntityID)
         .group_by(flecs::type_id<RenderPhases>(), GetTypeRank);
-
-    flecs::type PhaseType = ecs.component<RenderPhases>().type();
-    for(auto TypeID : PhaseType){
-        builder.term(TypeID).oper(flecs::Or);
-    }
-
+    
+    ecs.component<RenderPhases>().children([&](flecs::entity Phase)
+    {
+        builder.term(Phase).or_();
+    });
+    
     // final term can't be an Or
     builder.oper(flecs::And);
     
