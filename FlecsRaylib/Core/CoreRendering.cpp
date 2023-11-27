@@ -2,11 +2,20 @@
 
 void CoreRendering::RegisterTypes(flecs::world& ecs)
 {
-    ecs.component<RenderPhases>()
-        .add<RenderPhases::PreDraw>()
-        .add<RenderPhases::Background>()
-        .add<RenderPhases::Draw>()
-        .add<RenderPhases::PostDraw>();
+    std::vector RenderPhases = {
+        ecs.entity<RenderPhases::PreDraw>(),
+        ecs.entity<RenderPhases::Background>(),
+        ecs.entity<RenderPhases::Draw>(),
+        ecs.entity<RenderPhases::PostDraw>()
+    };
+
+    flecs::entity_t PriorPhase = flecs::OnStore;
+
+    for(auto& Phase : RenderPhases)
+    {
+        Phase.add(flecs::Phase).depends_on(PriorPhase);
+        PriorPhase = Phase;
+    }
 }
 
 void CoreRendering::RegisterSystems(flecs::world& ecs)
@@ -49,53 +58,6 @@ void CoreRendering::RegisterSystems(flecs::world& ecs)
 
 void CoreRendering::InitGlobals(flecs::world& ecs)
 {
-    ecs.set<RenderPhases>({BuildRenderPipeline(ecs)});
-}
-
-flecs::query<> CoreRendering::BuildRenderPipeline(flecs::world& ecs)
-{
-    auto builder = ecs.query_builder()
-        .term(flecs::System)
-        .order_by(0, CompareEntityID)
-        .group_by(flecs::type_id<RenderPhases>(), GetTypeRank);
-    
-    ecs.component<RenderPhases>().children([&](flecs::entity Phase)
-    {
-        builder.term(Phase).or_();
-    });
-    
-    // final term can't be an Or
-    builder.oper(flecs::And);
-    
-    return builder.build();
-}
-
-int CoreRendering::CompareEntityID(ecs_entity_t e1, const void* ptr1, ecs_entity_t e2, const void* ptr2)
-{
-    return (e1 > e2) - (e1 < e2);
-}
-
-uint64_t CoreRendering::GetTypeRank(flecs::world_t* m_world, flecs::table_t* m_table_type, flecs::id_t m_grp_type, void*)
-{
-    flecs::table TableType(m_world, m_table_type);
-    
-    for(auto ColId : TableType.type())
-    {
-        flecs::entity e(m_world, ColId);
-        if(e.is_valid() && e.has(flecs::ChildOf, m_grp_type))
-        {
-            int i = 0;
-            const flecs::type GrpType = flecs::entity(m_world, m_grp_type).type();
-            for(auto TypeID : GrpType){
-                if(ColId == TypeID)
-                {
-                    return i;
-                }
-                i++;
-            }
-        }
-    }
-    return 0;
 }
 
 void CoreRendering::WindowLifecycleHandler(flecs::iter& Iter, Window* windows)

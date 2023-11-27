@@ -28,7 +28,12 @@ void UserInput::RegisterTypes(flecs::world& ecs)
         .set<KeyBinding>({
             KeyboardKey::KEY_S
         });
-
+    
+    ecs.component<MouseInfo>()
+        .add<Position>()
+        .set<Circle>({WHITE, 5});
+    
+    ecs.set<MoveInput>({});
 }
 
 void UserInput::RegisterSystems(flecs::world& ecs)
@@ -45,25 +50,17 @@ void UserInput::RegisterSystems(flecs::world& ecs)
                 .set<Position>({MousePos});
         });
     
-    ecs.system<MoveInput>()
-        .term<const MoveLeft>().singleton().oper(flecs::Optional)
-        .term<const MoveRight>().singleton().oper(flecs::Optional)
-        .term<const MoveUp>().singleton().oper(flecs::Optional)
-        .term<const MoveDown>().singleton().oper(flecs::Optional)
-        .iter([](flecs::iter& Iter, MoveInput* Input)
+    ecs.system<MoveInput, const AxisChord, const AxisChord>()
+        .term_at(2).src<MoveHorizontal>()
+        .term_at(3).src<MoveVertical>()
+        .each([](MoveInput& Input, const AxisChord& Horizontal, const AxisChord& Vertical)
         {
-            raylib::Vector2 MappedInput;
-            
-            MappedInput.x += Iter.is_set(2) * -1;
-            MappedInput.x += Iter.is_set(3) *  1;
-            MappedInput.y += Iter.is_set(4) * -1;
-            MappedInput.y += Iter.is_set(5) *  1;
-            
-            MappedInput = MappedInput.Normalize();
+            raylib::Vector2 MappedInput(Horizontal.Value, Vertical.Value);
 
-            for(auto i : Iter)
+            if(MappedInput != raylib::Vector2::Zero())
             {
-                Input[i].Value = MappedInput;
+                MappedInput = MappedInput.Normalize();
+                Input.Value = MappedInput;
             }
         });
 
@@ -88,8 +85,4 @@ void UserInput::RegisterSystems(flecs::world& ecs)
 
 void UserInput::InitGlobals(flecs::world& ecs)
 {
-    ecs.component<MouseInfo>()
-        .add<Position>()
-        .set<Circle>({WHITE, 5});
-    ecs.set<MoveInput>({});
 }

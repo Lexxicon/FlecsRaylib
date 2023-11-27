@@ -18,21 +18,21 @@ struct KeyBinding
     KeyboardKey Key;
 };
 
-struct AxisBinding
+struct AxisChord
 {
-    void* Positive = nullptr;
-    void* Negative = nullptr;
+    struct Positive{};
+    struct Negative{};
+
+    float Value = 0;
 };
 
 
-struct RenderPhases
+namespace RenderPhases
 {
     struct PreDraw{};
     struct Background{};
     struct Draw{};
     struct PostDraw{};
-
-    flecs::query<> Pipeline;
 };
 
 struct MainWindow{};

@@ -14,6 +14,9 @@ int main(int argc, char* argv[])
 {
     ecs_os_init();
     flecs::world ecs;
+    
+    ecs_log_set_level(1);
+    ecs_log_enable_colors(false);
 
     std::vector<LifecycleHandle> Features{
         CoreRendering::MakeHandle(),
@@ -24,17 +27,13 @@ int main(int argc, char* argv[])
     };
     LifecycleHandle::ProcessHandles(ecs, Features);
     
-    ecs_log_set_level(1);
-    ecs_log_enable_colors(false);
+    ecs.component<MainWindow>()
+        .add<Window>()
+        .set<WindowSize>({{800, 450}})
+        .set<WindowTitle>({"Basic Window"})
+        .set<WindowFPS>({60});
     
-    auto RenderRef = ecs.get_ref<RenderPhases>();
-    while (ecs.progress())
-    {
-        RenderRef->Pipeline.each([](flecs::entity RenderSystem)
-        {
-            flecs::system(RenderSystem.world(), RenderSystem).run();
-        });
-    }
+    while (ecs.progress()) { }
 
     return 0;
 }

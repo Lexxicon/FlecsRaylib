@@ -12,7 +12,10 @@ void Rendering::RegisterSystems(flecs::world& ecs)
 {   
     ecs.system<const Position, const Circle>("Draw Circles")
         .kind<RenderPhases::Draw>()
-        .iter(DrawCircles);
+        .each([](const Position& P, const Circle& C)
+        {
+            DrawCircleV(P.Value, C.Radius, C.Color);
+        });
 
     ecs.system<const WindowSize>()
         .arg(1).entity(ecs.component<MainWindow>())
@@ -28,11 +31,6 @@ void Rendering::RegisterSystems(flecs::world& ecs)
 
 void Rendering::InitGlobals(flecs::world& ecs)
 {
-    ecs.component<MainWindow>()
-        .add<Window>()
-        .set<WindowSize>({{800, 450}})
-        .set<WindowTitle>({"Basic Window"})
-        .set<WindowFPS>({60});
 }
 
 void Rendering::DrawCircles(flecs::iter& Iter, const Position* positions, const Circle* circles)
