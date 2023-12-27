@@ -2,29 +2,9 @@
 #include "Vector2.hpp"
 #include "Window.hpp"
 #include "flecs.h"
-
-struct MouseInfo
-{
-    raylib::Vector2 PosDelta;
-};
-
-struct MouseBinding
-{
-    MouseButton Bind;
-};
-
-struct KeyBinding
-{
-    KeyboardKey Key;
-};
-
-struct AxisChord
-{
-    struct Positive{};
-    struct Negative{};
-
-    float Value = 0;
-};
+#include "Reflection.h"
+#include "boost/pfr/core.hpp"
+#include "boost/pfr/core_name.hpp"
 
 
 namespace RenderPhases

@@ -23,13 +23,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -60,7 +60,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SubModules\raylib\src;$(SolutionDir)\SubModules\raylib-cpp\include;$(SolutionDir)\SubModules\flecs;$(SolutionDir)\FlecsRaylib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SubModules\raylib\src;$(SolutionDir)\SubModules\raylib-cpp\include;$(SolutionDir)\SubModules\flecs;$(SolutionDir)\FlecsRaylib;$(SolutionDir)\SubModules\pfr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -81,7 +81,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SubModules\raylib\src;$(SolutionDir)\SubModules\raylib-cpp\include;$(SolutionDir)\SubModules\flecs;$(SolutionDir)\FlecsRaylib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SubModules\raylib\src;$(SolutionDir)\SubModules\raylib-cpp\include;$(SolutionDir)\SubModules\flecs;$(SolutionDir)\FlecsRaylib;$(SolutionDir)\SubModules\pfr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -91,7 +91,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\build\raylib\bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>raylib.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winmm.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-   </Link>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\SubModules\flecs\flecs.c">
@@ -169,14 +169,59 @@
     </ClCompile>
     <ClCompile Include="Core\CoreRendering.cpp" />
     <ClCompile Include="Core\FeatureLifecycle.cpp" />
-    <ClCompile Include="Core\InputBridge.cpp" />
+    <ClCompile Include="Core\Reflection.cpp" />
     <ClCompile Include="Features\WorldTimeHandler.cpp" />
     <ClCompile Include="FlecsRaylib.cpp" />
-    <ClCompile Include="Features\Rendering.cpp" />
     <ClCompile Include="Features\UserInput.cpp" />
+    <ClCompile Include="Modules\InputBindings.cpp" />
+    <ClCompile Include="Modules\InputProcessing.cpp" />
+    <ClCompile Include="Modules\RaylibBridge.cpp" />
+    <ClCompile Include="Modules\Rendering.cpp" />
+    <ClCompile Include="Modules\StdBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\SubModules\flecs\flecs.h" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\config.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\core.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\core_name.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\cast_to_layout_compatible.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\config.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\core.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\core14_classic.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\core14_loophole.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\core17.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\core17_generated.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\core_name.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\core_name14_disabled.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\core_name20_static.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\detectors.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\fake_object.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\fields_count.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\for_each_field_impl.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\functional.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\io.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\make_flat_tuple_of_references.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\make_integer_sequence.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\offset_based_getter.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\possible_reflectable.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\rvalue_t.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\sequence_tuple.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\size_array.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\size_t_.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\stdarray.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\stdtuple.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\tie_from_structure_tuple.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\detail\unsafe_declval.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\functions_for.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\functors.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\io.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\io_fields.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\ops.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\ops_fields.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\traits.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\traits_fwd.hpp" />
+    <ClInclude Include="..\SubModules\pfr\include\boost\pfr\tuple_size.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\AudioDevice.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\AudioStream.hpp" />
     <ClInclude Include="..\SubModules\raylib-cpp\include\BoundingBox.hpp" />
@@ -214,16 +259,21 @@
     <ClInclude Include="Core\CoreRendering.h" />
     <ClInclude Include="Core\CoreTypes.h" />
     <ClInclude Include="Core\FeatureLifecycle.h" />
-    <ClInclude Include="Core\InputBridge.h" />
+    <ClInclude Include="Core\Reflection.h" />
     <ClInclude Include="Data\GameTypes.h" />
     <ClInclude Include="Data\Inputs.h" />
     <ClInclude Include="Data\Visuals.h" />
-    <ClInclude Include="Features\Rendering.h" />
     <ClInclude Include="Features\UserInput.h" />
     <ClInclude Include="Features\WorldTimeHandler.h" />
+    <ClInclude Include="Modules\InputBindings.h" />
+    <ClInclude Include="Modules\InputProcessing.h" />
+    <ClInclude Include="Modules\RaylibBridge.h" />
+    <ClInclude Include="Modules\Rendering.h" />
+    <ClInclude Include="Modules\StdBridge.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\SubModules\raylib-cpp\include\CMakeLists.txt" />
+    <Content Include="Config\KeyBinds.plecs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Update="..\SubModules\raylib-cpp\include" />

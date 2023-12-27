@@ -2,58 +2,44 @@
 
 void CoreRendering::RegisterTypes(flecs::world& ecs)
 {
-    std::vector RenderPhases = {
-        ecs.entity<RenderPhases::PreDraw>(),
-        ecs.entity<RenderPhases::Background>(),
-        ecs.entity<RenderPhases::Draw>(),
-        ecs.entity<RenderPhases::PostDraw>()
-    };
-
-    flecs::entity_t PriorPhase = flecs::OnStore;
-
-    for(auto& Phase : RenderPhases)
-    {
-        Phase.add(flecs::Phase).depends_on(PriorPhase);
-        PriorPhase = Phase;
-    }
 }
 
 void CoreRendering::RegisterSystems(flecs::world& ecs)
 {
-    ecs.observer<Window>("Window Lifecycle Manager")
-        .event(flecs::OnAdd)
-        .event(flecs::OnRemove)
-        .iter(WindowLifecycleHandler);
-    ecs.observer<Window, const WindowTitle>("Update Window Title")
-        .event(flecs::OnSet)
-        .iter(UpdateWindowTitle);
-    ecs.observer<Window, WindowSize>("Update Window Size")
-        .event(flecs::OnSet)
-        .iter(UpdateWindowSize);
-    ecs.observer<Window, WindowFPS>("Update Window FPS")
-        .event(flecs::OnSet)
-        .iter(UpdateWindowFPS);
-
-
-    ecs.system<Window>("Check Exit Request")
-        .kind(flecs::PostFrame)
-        .iter([](flecs::iter& Iter, Window* Windows)
-        {
-            for(auto i : Iter)
-            {
-                if(Windows[i].hndl->ShouldClose())
-                {
-                    Iter.world().quit();
-                }
-            }
-        });
-    
-    ecs.system<Window>("BeginDrawing")
-        .kind<RenderPhases::PreDraw>()
-        .iter(BeginDrawing);
-    ecs.system<Window>("EndDraw")
-        .kind<RenderPhases::PostDraw>()
-        .iter(EndDrawing);
+    // ecs.observer<Window>("Window Lifecycle Manager")
+    //     .event(flecs::OnAdd)
+    //     .event(flecs::OnRemove)
+    //     .iter(WindowLifecycleHandler);
+    // ecs.observer<Window, const WindowTitle>("Update Window Title")
+    //     .event(flecs::OnSet)
+    //     .iter(UpdateWindowTitle);
+    // ecs.observer<Window, WindowSize>("Update Window Size")
+    //     .event(flecs::OnSet)
+    //     .iter(UpdateWindowSize);
+    // ecs.observer<Window, WindowFPS>("Update Window FPS")
+    //     .event(flecs::OnSet)
+    //     .iter(UpdateWindowFPS);
+    //
+    //
+    // ecs.system<Window>("Check Exit Request")
+    //     .kind(flecs::PostFrame)
+    //     .iter([](flecs::iter& Iter, Window* Windows)
+    //     {
+    //         for(auto i : Iter)
+    //         {
+    //             if(Windows[i].hndl->ShouldClose())
+    //             {
+    //                 Iter.world().quit();
+    //             }
+    //         }
+    //     });
+    //
+    // ecs.system<Window>("BeginDrawing")
+    //     .kind<RenderPhases::PreDraw>()
+    //     .iter(BeginDrawing);
+    // ecs.system<Window>("EndDraw")
+    //     .kind<RenderPhases::PostDraw>()
+    //     .iter(EndDrawing);
 }
 
 void CoreRendering::InitGlobals(flecs::world& ecs)

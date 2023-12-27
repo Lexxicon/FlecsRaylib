@@ -4,32 +4,18 @@
 #include "Data/GameTypes.h"
 #include "Data/Inputs.h"
 #include "Data/Visuals.h"
+#include "Modules/InputBindings.h"
 
 void UserInput::RegisterTypes(flecs::world& ecs)
 {
     ecs.component<SpawnCircleAtMouse>()
-        .set<MouseBinding>({
+        .set<Input::MouseBinding>({
             MouseButton::MOUSE_BUTTON_LEFT
         });
 
-    ecs.component<MoveLeft>()
-        .set<KeyBinding>({
-            KeyboardKey::KEY_A
-        });
-    ecs.component<MoveRight>()
-        .set<KeyBinding>({
-            KeyboardKey::KEY_D
-        });
-    ecs.component<MoveUp>()
-        .set<KeyBinding>({
-            KeyboardKey::KEY_W
-        });
-    ecs.component<MoveDown>()
-        .set<KeyBinding>({
-            KeyboardKey::KEY_S
-        });
+    ecs.component<Circle>();
     
-    ecs.component<MouseInfo>()
+    ecs.component<Input::MouseInfo>()
         .add<Position>()
         .set<Circle>({WHITE, 5});
     
@@ -43,17 +29,17 @@ void UserInput::RegisterSystems(flecs::world& ecs)
         .event(flecs::OnAdd)
         .iter([](flecs::iter& Iter)
         {
-            auto MousePos = *Iter.world().singleton<MouseInfo>().get<raylib::Vector2>();
+            auto MousePos = *Iter.world().singleton<Input::MouseInfo>().get<raylib::Vector2>();
             Iter.world().entity()
                 .add<ControlledCircle>()
                 .set<Circle>({LIME, 10})
                 .set<Position>({MousePos});
         });
     
-    ecs.system<MoveInput, const AxisChord, const AxisChord>()
+    ecs.system<MoveInput, const Input::AxisValue, const Input::AxisValue>()
         .term_at(2).src<MoveHorizontal>()
         .term_at(3).src<MoveVertical>()
-        .each([](MoveInput& Input, const AxisChord& Horizontal, const AxisChord& Vertical)
+        .each([](MoveInput& Input, const Input::AxisValue& Horizontal, const Input::AxisValue& Vertical)
         {
             raylib::Vector2 MappedInput(Horizontal.Value, Vertical.Value);
 
@@ -62,11 +48,15 @@ void UserInput::RegisterSystems(flecs::world& ecs)
                 MappedInput = MappedInput.Normalize();
                 Input.Value = MappedInput;
             }
+            else
+            {
+                Input.Value = raylib::Vector2::Zero();
+            }
         });
 
-    ecs.system<MouseInfo, raylib::Vector2, Position>()
+    ecs.system<Input::MouseInfo, raylib::Vector2, Position>()
         .kind(flecs::PreFrame)
-        .each([](MouseInfo&, raylib::Vector2& v, Position& p)
+        .each([](Input::MouseInfo&, raylib::Vector2& v, Position& p)
         {
             p.Value = v;
         });

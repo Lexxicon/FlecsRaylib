@@ -7,3 +7,6 @@
 [submodule "FlecsRaylib/SubModules/raylib-cpp"]
 	path = SubModules/raylib-cpp
 	url = git@github.com:RobLoach/raylib-cpp.git
+[submodule "FlecsRaylib/SubModules/pfr"]
+	path = SubModules/pfr
+	url = git@github.com:boostorg/pfr.git

@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlecsRaylib", "FlecsRaylib\FlecsRaylib.vcxproj", "{431C3908-089B-4FF0-917B-8FABCF920F4A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E89D61AC-55DE-4482-AFD4-DF7242EBC859} = {E89D61AC-55DE-4482-AFD4-DF7242EBC859}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "raylib", "SubModules\raylib\projects\VS2022\raylib\raylib.vcxproj", "{E89D61AC-55DE-4482-AFD4-DF7242EBC859}"
 EndProject

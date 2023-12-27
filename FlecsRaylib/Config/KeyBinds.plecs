@@ -1,0 +1,11 @@
+MoveHorizontal {
+  - Input.AxisValue
+  - (Input.KeyBinding, Input.AxisBind.Positive){KEY_D}
+  - (Input.KeyBinding, Input.AxisBind.Negative){KEY_A}
+}
+
+MoveVertical {
+  - Input.AxisValue
+  - (Input.KeyBinding, Input.AxisBind.Positive){KEY_S}
+  - (Input.KeyBinding, Input.AxisBind.Negative){KEY_W}
+}

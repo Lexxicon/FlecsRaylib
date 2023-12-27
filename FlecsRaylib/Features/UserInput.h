@@ -3,8 +3,6 @@
 #include "Vector2.hpp"
 #include "Core/FeatureLifecycle.h"
 
-struct MouseInfo;
-
 class UserInput : public FeatureLifecycle<UserInput>
 {
 public:
